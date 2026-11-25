@@ -44,24 +44,32 @@ Before requesting breakglass access, ensure that:
 ```mermaid
 flowchart LR
 
-    A[User Access Request] --> B[Delinea Secret Server]
-    B --> C[Login using $/36 ID or SSO]
-    C --> D[Complete MFA]
-    D --> E[Locate Authorized Windows Host]
-    E --> F[Open Breakglass Account<br/>e.g. volovp27]
-    F --> G[Provide Business Justification]
-    G --> H[Check Out Password]
+    subgraph D["Delinea Secret Server"]
+        D1[Login using $/36 ID]
+        D2[Complete SSO + MFA]
+        D3["Locate Windows Host<br/>and Breakglass Account"]
+        D4[Provide Justification]
+        D5[Check Out Password]
+        D6[Check In Password]
+        D7[Password Rotation]
+    end
 
-    H --> I[Cyolo Secure Access]
-    I --> J[Login using CDSID]
-    J --> K[Complete SSO and MFA]
-    K --> L[View Authorized Hosts]
-    L --> M[Launch Secure Session]
-    M --> N[Perform Approved Administrative Activity]
+    subgraph C["Cyolo Secure Access"]
+        C1[Login using CDSID]
+        C2[Complete SSO + MFA]
+        C3[View Authorized Hosts]
+        C4[Select Target Host]
+        C5[Launch Secure Session]
+        C6["Authenticate Using<br/>Checked-Out Password"]
+        C7[Perform Administration]
 
-    N --> O[Return to Delinea]
-    O --> P[Check In Password]
-    P --> Q[Password Rotation Triggered]
+    end
+
+    D1 --> D2 --> D3 --> D4 --> D5
+    D5 -. Retrieved Password .-> C6
+    C1 --> C2 --> C3 --> C4 --> C5 --> C6 --> C7 --> D6 --> D7
+
+
 ```
 
 ---
