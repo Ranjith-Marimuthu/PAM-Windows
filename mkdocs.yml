@@ -1,0 +1,45 @@
+site_name: PAM 2.0 Windows Breakglass TechDocs
+site_description: Technical and end-user documentation for PAM 2.0 Windows breakglass password management
+
+docs_dir: docs
+
+nav:
+  - Home: index.md
+  - Glossary: glossary.md
+  - Open Decisions: open-decisions.md
+  - End Users:
+      - Overview: for-end-users/index.md
+      - User Handbook: for-end-users/user-handbook.md
+      - Access Workflows: for-end-users/access-workflows.md
+      - FAQ: for-end-users/faq.md
+      - Getting Help: for-end-users/getting-help.md
+  - Administrators:
+      - Overview: for-administrators/index.md
+      - Architecture: for-administrators/architecture.md
+      - Active Directory and GPO: for-administrators/active-directory-and-gpo.md
+      - Network Requirements: for-administrators/network-requirements.md
+      - Discovery and Onboarding: for-administrators/discovery-and-onboarding.md
+      - LAPS to Delinea Transition: for-administrators/laps-to-delinea-transition.md
+      - Password Management: for-administrators/password-management.md
+      - Cyolo Integration: for-administrators/cyolo-integration.md
+      - Monitoring and Auditing: for-administrators/monitoring-and-auditing.md
+      - VM Snapshot Recovery: for-administrators/vm-snapshot-recovery.md
+      - Operational Runbooks: for-administrators/operational-runbooks.md
+      - Troubleshooting: for-administrators/troubleshooting.md
+  - Reference:
+      - Configuration Matrix: reference/configuration-matrix.md
+      - Validation Checklist: reference/validation-checklist.md
+      - RACI: reference/raci.md
+      - Source Register: reference/source-register.md
+
+plugins:
+  - techdocs-core
+
+markdown_extensions:
+  - admonition
+  - tables
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format

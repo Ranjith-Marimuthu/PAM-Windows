@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: pam-2-0-windows-breakglass
+  title: PAM 2.0 Windows Breakglass Password Management
+  description: Production Backstage TechDocs for Windows local breakglass account management using Delinea Secret Server and Cyolo.
+  tags:
+    - pam
+    - breakglass
+    - windows
+    - delinea
+    - cyolo
+spec:
+  type: documentation
+  lifecycle: production
+  owner: <TBC-BACKSTAGE-OWNER>
+  system: <TBC-PAM-SYSTEM>
