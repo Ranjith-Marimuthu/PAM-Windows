@@ -78,12 +78,7 @@ flowchart TD
     D6 --> D7["Check In Password"]
     D7 --> D8["Password Rotation Triggered"]
 
-    style P fill:#D5F5E3,stroke:#27AE60
-    style D8 fill:#D5F5E3,stroke:#27AE60
-    style C7 fill:#FCF3CF,stroke:#D4AC0D
-
 ```
-
 ---
 
 # Step 1: Sign in to Delinea Secret Server
