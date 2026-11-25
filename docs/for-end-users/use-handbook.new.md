@@ -42,33 +42,45 @@ Before requesting breakglass access, ensure that:
 # Process Flow
 
 ```mermaid
-flowchart LR
+flowchart TD
 
-    subgraph D["Delinea Secret Server"]
-        D1[Login using $/36 ID]
-        D2[Complete SSO + MFA]
-        D3["Locate Windows Host<br/>and Breakglass Account"]
-        D4[Provide Justification]
-        D5[Check Out Password]
-        D6[Check In Password]
-        D7[Password Rotation]
-    end
+    subgraph D["🔐 Delinea Secret Server - Credential Retrieval"]
 
-    subgraph C["Cyolo Secure Access"]
-        C1[Login using CDSID]
-        C2[Complete SSO + MFA]
-        C3[View Authorized Hosts]
-        C4[Select Target Host]
-        C5[Launch Secure Session]
-        C6["Authenticate Using<br/>Checked-Out Password"]
-        C7[Perform Administration]
+        D1["Login using $/36 ID or SSO"]
+        D2["Complete MFA Verification"]
+        D3["Locate Authorized Windows Host<br/>and Breakglass Account"]
+        D4["Provide Business Justification"]
+        D5["Check Out Password"]
+
+        D1 --> D2 --> D3 --> D4 --> D5
 
     end
 
-    D1 --> D2 --> D3 --> D4 --> D5
-    D5 -. Retrieved Password .-> C6
-    C1 --> C2 --> C3 --> C4 --> C5 --> C6 --> C7 --> D6 --> D7
+    D5 --> P["Password Retrieved<br/>(Valid for up to 8 Hours)"]
 
+    subgraph C["🖥️ Cyolo Secure Access - Host Access"]
+
+        C1["Login using CDSID"]
+        C2["Complete MFA Verification"]
+        C3["View Authorized Hosts"]
+        C4["Select Target Host"]
+        C5["Launch Secure Session"]
+        C6["Authenticate Using<br/>Retrieved Password"]
+        C7["Perform Approved Administrative Activity"]
+
+        C1 --> C2 --> C3 --> C4 --> C5 --> C6 --> C7
+
+    end
+
+    P -. "Use Retrieved Password" .-> C6
+
+    C7 --> D6["Return to Delinea"]
+    D6 --> D7["Check In Password"]
+    D7 --> D8["Password Rotation Triggered"]
+
+    style P fill:#D5F5E3,stroke:#27AE60
+    style D8 fill:#D5F5E3,stroke:#27AE60
+    style C7 fill:#FCF3CF,stroke:#D4AC0D
 
 ```
 
