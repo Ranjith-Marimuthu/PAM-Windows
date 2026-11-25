@@ -12,18 +12,21 @@
 
 ```mermaid
 flowchart TD
-    A[Open Delinea] --> B[Sign in with corporate SSO and MFA]
-    B --> C[Find authorized Windows host]
-    C --> D[Provide justification and ticket reference]
-    D --> E[Check out breakglass password]
-    E --> F[Open Cyolo login page]
-    F --> G[Sign in with CDSID and MFA]
-    G --> H[Select authorized target]
-    H --> I[Launch secure session]
-    I --> J[Perform approved task]
-    J --> K[Close session and update ticket]
-    K --> L[Check in password in Delinea]
-    L --> M[Delinea rotates the password]
+    A[User signs in] --> B[Entra ID SSO]
+    B --> C[Complete MFA]
+    C --> D[Find authorized target]
+    D --> E[Provide justification and ticket reference]
+    E --> F{Access model}
+    F -->|Immediate emergency access| G[Mandatory justification and audit]
+    F -->|Approval-based access| H[Designated approver reviews request]
+    G --> I[Authorized access]
+    H -->|Approved| I
+    H -->|Rejected| J[No access; revise or use normal support]
+    I --> K[Launch Cyolo session]
+    K --> L[Perform approved task]
+    L --> M[Close session]
+    M --> N[Update incident, request, or change]
+
 ```
 
 ## Emergency access
