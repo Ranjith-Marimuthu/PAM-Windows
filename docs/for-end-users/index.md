@@ -12,7 +12,7 @@ Privileged Access Management (PAM) provides controlled access to sensitive Windo
 
 ## Available guidance
 
-- [User Handbook](use-handbook.new.md)
+- [User Handbook](user-handbook.md)
 - [Access Workflows](access-workflows.md)
 - [Frequently Asked Questions](faq.md)
 - [Getting Help](getting-help.md)
