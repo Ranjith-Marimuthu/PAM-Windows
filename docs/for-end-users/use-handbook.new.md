@@ -44,40 +44,39 @@ Before requesting breakglass access, ensure that:
 ```mermaid
 flowchart TD
 
-    subgraph D["🔐 Delinea Secret Server - Credential Retrieval"]
+    subgraph D["🔐 Delinea Secret Server - Retrieve Breakglass Credentials"]
 
-        D1["Login using $/36 ID or SSO"]
-        D2["Complete MFA Verification"]
-        D3["Locate Authorized Windows Host<br/>and Breakglass Account"]
-        D4["Provide Business Justification"]
-        D5["Check Out Password"]
+        D1["🌐 Open Delinea Secret Server"]
+        D2["👤 Sign in using $/36 ID or SSO"]
+        D3["🔑 Complete MFA Verification"]
+        D4["🖥️ Locate Authorized Windows Host<br/>and Breakglass Account"]
+        D5["📝 Enter Business Justification<br/>(Incident / Change / Service Request)"]
+        D6["🔓 Check Out Password"]
+        D7["📋 Password Retrieved<br/>(Valid for up to 8 Hours)"]
 
-        D1 --> D2 --> D3 --> D4 --> D5
+        D1 --> D2 --> D3 --> D4 --> D5 --> D6 --> D7
 
     end
 
-    D5 --> P["Password Retrieved<br/>(Valid for up to 8 Hours)"]
+    D7 -. "🔗 Use Retrieved Password" .-> C6
 
-    subgraph C["🖥️ Cyolo Secure Access - Host Access"]
+    subgraph C["🚀 Cyolo Secure Access - Connect to Target Host"]
 
-        C1["Login using CDSID"]
-        C2["Complete MFA Verification"]
-        C3["View Authorized Hosts"]
-        C4["Select Target Host"]
-        C5["Launch Secure Session"]
-        C6["Authenticate Using<br/>Retrieved Password"]
-        C7["Perform Approved Administrative Activity"]
+        C1["🌐 Open Cyolo Portal"]
+        C2["👤 Sign in using CDSID"]
+        C3["🔑 Complete MFA Verification"]
+        C4["📋 View Authorized Hosts"]
+        C5["🎯 Select Target Host"]
+        C6["🔐 Authenticate Using Retrieved Password"]
+        C7["🛠️ Perform Approved Administrative Activity"]
 
         C1 --> C2 --> C3 --> C4 --> C5 --> C6 --> C7
 
     end
 
-    P -. "Use Retrieved Password" .-> C6
-
-    C7 --> D6["Return to Delinea"]
-    D6 --> D7["Check In Password"]
-    D7 --> D8["Password Rotation Triggered"]
-
+    C7 --> R1["↩️ Return to Delinea Secret Server"]
+    R1 --> R2["📥 Check In Password"]
+    R2 --> R3["🔄 Password Rotation Triggered"]
 ```
 ---
 
