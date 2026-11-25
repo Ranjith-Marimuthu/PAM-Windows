@@ -1,6 +1,6 @@
 # Frequently Asked Questions
 
-**Purpose:** Answer common end-user questions about breakglass access.  
+**Purpose:** Answer common end-user questions about the Windows breakglass account password workflow.  
 **Audience:** End users.
 
 ## What is breakglass access?
@@ -13,34 +13,32 @@ Use breakglass access only when normal access is unavailable or cannot complete 
 
 ## Do I need MFA?
 
-**Confirmed:** Yes. Sign-in uses Microsoft Entra ID SSO and MFA.
+Yes. Sign in to Delinea and Cyolo using the required corporate authentication and MFA.
 
 ## Do I need a ticket reference?
 
-**Confirmed:** Yes. Provide an incident, request, or change reference and a clear justification.
+Yes. Provide an incident, request, or change reference and a clear justification.
 
-## Can I request access immediately?
+## Which portals do I use?
 
-Immediate emergency access may be available for approved emergencies. It still requires justification and creates an audit record.
+- **Delinea Secret Server:** https://pam.volvocars.net/secretserver/login.aspx?preventautologin=true
+- **Cyolo:** https://login.volvocars.cyolo.io/welcome
 
-## Is approval always required?
+## How do I retrieve the Windows breakglass password?
 
-No. One model provides immediate emergency access. The other requires designated approval before access is granted.
+Open Delinea Secret Server, locate the authorized Windows host and breakglass account, enter the required justification, and select **Check Out Password**.
 
-> [!IMPORTANT]
-> TBC: Which request types use each model, and who acts as approver.
+## How long is the password valid?
+
+The checked-out password remains valid for up to 8 hours. Check it in promptly after completing the work.
 
 ## How do I connect to the target?
 
-After authorization, launch the target through the secure session mechanism. Do not copy or store the credential outside the approved workflow.
-
-## What should I do during a session?
-
-Complete only the approved task. Do not change unrelated configuration, inspect another system, or share session access.
+Sign in to Cyolo, select the authorized target, launch the secure session, and authenticate using the password retrieved from Delinea.
 
 ## What happens after I finish?
 
-Close the secure session and update the incident, request, or change with the outcome and relevant evidence.
+Close the secure session, update the incident, request, or change with the outcome and relevant evidence, and check in the password in Delinea.
 
 ## What if the server was restored from a snapshot?
 
@@ -50,14 +48,10 @@ Do not attempt password recovery or repeated sign-in attempts. Stop and contact 
 
 Check that you selected the correct authorized target and completed SSO and MFA. If the problem continues, stop and contact PAM support. Do not bypass the workflow or use undocumented credentials.
 
-## How long does access last?
+## Can I share or store the password?
 
-The permitted duration depends on the approved request and access policy.
+No. Passwords must not be shared, exported, recorded, or stored outside approved systems.
 
-> [!IMPORTANT]
-> TBC: Standard checkout and timed-access durations.
+## Where do I get support?
 
-## Source and validation status
-
-**Confirmed:** Breakglass purpose, SSO/MFA, justification, ticket reference, audit, two access models, session launch, and snapshot-recovery escalation are defined.  
-**TBC:** Portal details, approval policy, access duration, and support contacts.
+Use the [Getting Help](getting-help.md) page for the PAM email, ServiceNow request process, incident queue, escalation routine, and contact list.
