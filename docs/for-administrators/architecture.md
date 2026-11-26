@@ -1,91 +1,177 @@
-# PAM 2.0 Logical Architecture
+# PAM 2.0 Infrastructure Architecture
 
-**Purpose:** Explain component responsibilities and the logical breakglass access path.  
-**Audience:** PAM architects, Windows engineers, identity engineers, and security operations.
+## Purpose
 
-## Architecture overview
+This document describes the physical deployment topology of the PAM 2.0 platform, including web servers, databases, RabbitMQ clusters, Distributed Engines, load balancing components, and high availability design.
 
-PAM 2.0 uses Delinea Secret Server as the sole credential authority for `volvop27`, while Cyolo Session Manager provides the controlled connection tier. Active Directory and Group Policy enable approved discovery and connection access on target servers.
+## Infrastructure Overview
+
+The Delinea PAM platform is deployed across:
+
+- Primary Datacenter (GOT)
+- Secondary / DR Datacenter (Cloud)
+- Manufacturing DMZ (vccmfg.net)
+- F5 Global and Local Load Balancing Layer
+
+## Physical Topology
 
 ```mermaid
-flowchart LR
-    U[Authorized user] --> E[Microsoft Entra ID SSO and MFA]
-    E --> C[Cyolo Session Manager]
-    C --> W[Windows target server]
-    D[Delinea Secret Server] -->|Owns credential lifecycle| W
-    DE[Delinea Discovery Engines] -->|Discover Windows accounts| W
-    DE --> D
-    AD[Active Directory and GPO] -->|Computer objects, groups, policy| W
-    D -->|Governed retrieval and audit| C
+flowchart TB
+    User[PAM User]
+    GLB[pam.volvocars.net]
+
+    subgraph Primary Datacenter (GOT)
+        WEB1[WEB1]
+        WEB2[WEB2]
+        DB1[DB1]
+        DB2[DB2]
+        AOAG[DB-AOAG]
+        MQ1[MQ1]
+        MQ2[MQ2]
+        MQ3[MQ3]
+        DE1[DE1]
+    end
+
+    subgraph DR Datacenter (Cloud)
+        WEB3[WEB3]
+        WEB4[WEB4]
+        DB3[DB3]
+        MQ4[MQ4]
+        MQ5[MQ5]
+        MQ6[MQ6]
+        DE2[DE2]
+    end
+
+    subgraph DMZ
+        DE3[DE3]
+        DE4[DE4]
+    end
+
+    User --> GLB
 ```
 
-## Component responsibilities
+# Infrastructure Inventory
 
-| Component | Confirmed responsibility |
-|---|---|
-| Delinea Secret Server | Credential generation, storage, governed retrieval, rotation, verification, history, access policy, and audit |
-| Delinea Discovery Engine | Windows server and local-account discovery |
-| Microsoft Entra ID | SSO and MFA for access governance |
-| Active Directory | Computer objects, groups, GPOs, and policy targeting |
-| Cyolo Session Manager | Controlled Windows session launch and target connectivity; no password ownership or rotation |
-| Windows Server | Target host containing the managed local account |
+## Primary Datacenter (GOT)
 
-## Logical flows
+### Database Layer
 
-### Discovery
+| Reference | FQDN | IP Address | Component |
+|------------|------------|------------|------------|
+| DB1 | gotsvw12236.got.volvocars.net | 10.122.84.78 | Database Server |
+| DB2 | gotsvw12238.got.volvocars.net | 10.122.84.100 | Database Server |
+| DB-AOAG | gotsvw12236vc.got.volvocars.net | 10.122.84.98 | SQL Always On Availability Group Listener |
+| DB-WSFC | gotsvw12238vc.got.volvocars.net | 10.122.84.101 | Windows Server Failover Cluster |
 
-Delinea Discovery Engines scan approved Windows servers using the permitted network path and approved scanning identity. Discovered Windows servers and accounts are reviewed before onboarding.
+### Web Tier
 
-### Credential management
+| Reference | FQDN | IP Address | Component |
+|------------|------------|------------|------------|
+| WEB1 | gotsvw12243.got.volvocars.net | 10.122.84.93 | Delinea Web Server |
+| WEB2 | gotsvw12244.got.volvocars.net | 10.122.84.94 | Delinea Web Server |
 
-Delinea stores and governs the credential for `volvop27`. Only Delinea generates, rotates, verifies, and retains password history for the account.
+### RabbitMQ Layer
 
-### User access
+| Reference | FQDN | IP Address | Component |
+|------------|------------|------------|------------|
+| MQ1 | gotsvw12303.got.volvocars.net | TBD | RabbitMQ Node |
+| MQ2 | gotsvw12304.got.volvocars.net | TBD | RabbitMQ Node |
+| MQ3 | gotsvw12252.got.volvocars.net | 10.122.84.34 | RabbitMQ Node |
 
-An authorized user authenticates through Entra ID SSO and MFA, supplies the required justification and ticket reference, obtains access under the applicable approval model, and launches a controlled Cyolo session to an authorized target.
+### Distributed Engine Layer
 
-## Responsibility boundary
+| Reference | FQDN | IP Address | Component |
+|------------|------------|------------|------------|
+| DE1 | gotsvw12245.got.volvocars.net | 10.122.84.95 | Distributed Engine |
 
-| Function | Owner |
-|---|---|
-| Credential generation and storage | Delinea Secret Server |
-| Password verification and history | Delinea Secret Server |
-| Rotation authority | Delinea Secret Server |
-| Target session connectivity | Cyolo Session Manager |
-| User identity and MFA | Microsoft Entra ID |
-| Discovery | Delinea Discovery Engines |
-| Server and policy targeting | Active Directory |
+---
 
-## Security constraints
+## Secondary / DR Datacenter (Cloud)
 
-- Do not configure LAPS and Delinea as simultaneous managers.
-- Do not enable Delinea rotation before confirming LAPS exclusion.
-- Do not permit unrestricted remote administration or remote SAM access.
-- Do not expose the password in logs, tickets, email, chat, or notes.
-- Historical password access must be restricted and audited.
+### Database Layer
 
-> [!WARNING]
-> Rotation is prohibited until the target server is confirmed to exclude `volvop27` from LAPS management.
+| Reference | FQDN | IP Address | Component |
+|------------|------------|------------|------------|
+| DB3 | closvw1985.cloud.volvocars.net | 10.46.158.74 | Database Server |
 
-## Prerequisites
+### Web Tier
 
-- Confirmed server ownership and onboarding approval.
-- Network connectivity from an approved Discovery Engine.
-- Approved AD placement and GPO targeting.
-- Valid Entra ID, Delinea, and Cyolo administration roles.
+| Reference | FQDN | IP Address | Component |
+|------------|------------|------------|------------|
+| WEB3 | closvw1979.cloud.volvocars.net | 10.46.158.68 | Delinea Web Server |
+| WEB4 | closvw1982.cloud.volvocars.net | 10.46.158.69 | Delinea Web Server |
 
-## Open integration details
+### RabbitMQ Layer
 
-> [!IMPORTANT]
-> TBC: Exact Cyolo integration method, Delinea URL and folder, secret template, and the user eligibility and approval model.
-> Owner: PAM platform and IAM teams
+| Reference | FQDN | IP Address | Component |
+|------------|------------|------------|------------|
+| MQ4 | closvw1981.cloud.volvocars.net | 10.46.158.70 | RabbitMQ Node |
+| MQ5 | closvw1983.cloud.volvocars.net | 10.46.158.72 | RabbitMQ Node |
+| MQ6 | closvw1984.cloud.volvocars.net | 10.46.158.73 | RabbitMQ Node |
 
-> [!IMPORTANT]
-> TBC: The complete production and non-production component topology has not been supplied.
-> Owner: PAM architecture team
+### Distributed Engine Layer
 
-## Source and validation status
+| Reference | FQDN | IP Address | Component |
+|------------|------------|------------|------------|
+| DE2 | closvw1980.cloud.volvocars.net | 10.46.158.71 | Distributed Engine |
 
-**Confirmed:** Component responsibilities, account ownership, LAPS replacement, and Cyolo boundary are explicitly defined.  
-**Planned:** User access through Entra ID, Delinea, and Cyolo.  
-**TBC:** Integration configuration and topology details.
+---
+
+## Manufacturing DMZ Environment (vccmfg.net)
+
+### Distributed Engine Layer
+
+| Reference | FQDN | IP Address | Component |
+|------------|------------|------------|------------|
+| DE3 | gotsvw12299.vccmfg.net | 10.122.128.87 | Distributed Engine |
+| DE4 | gotsvw12300.vccmfg.net | 10.122.128.88 | Distributed Engine |
+
+---
+
+## Load Balancing Layer
+
+### Global Traffic Managers
+
+| Reference | FQDN | IP Address | Function |
+|------------|------------|------------|------------|
+| GLB1 | pam.volvocars.net | 10.40.140.159 | Global Traffic Manager (User Access) |
+| GLB2 | pam-mq.volvocars.net | TBD | Global Traffic Manager (RabbitMQ) |
+
+### Local Traffic Managers
+
+| Reference | FQDN | IP Address | Function |
+|------------|------------|------------|------------|
+| LLB1 | pam-site1.volvocars.net | 10.40.140.157 | Primary Site Web Load Balancer |
+| LLB2 | pam-site2.volvocars.net | 10.40.140.156 | DR Site Web Load Balancer |
+| LLB3 | pam-mq-site1.volvocars.net | 10.40.138.69 | Primary Site RabbitMQ Load Balancer |
+| LLB4 | pam-mq-site2.volvocars.net | TBD | DR Site RabbitMQ Load Balancer |
+
+---
+
+# Infrastructure Summary
+
+| Layer | Components |
+|---------|---------|
+| Global Load Balancing | GLB1, GLB2 |
+| Local Load Balancing | LLB1, LLB2, LLB3, LLB4 |
+| Web Tier | WEB1, WEB2, WEB3, WEB4 |
+| Database Tier | DB1, DB2, DB3 |
+| SQL Availability | DB-AOAG, DB-WSFC |
+| RabbitMQ Cluster | MQ1, MQ2, MQ3, MQ4, MQ5, MQ6 |
+| Distributed Engines | DE1, DE2, DE3, DE4 |
+
+---
+
+# Infrastructure Capacity Summary
+
+| Component Type | Quantity |
+|----------------|----------|
+| Web Servers | 4 |
+| Database Servers | 3 |
+| SQL Cluster Services | 2 |
+| RabbitMQ Servers | 6 |
+| Distributed Engines | 4 |
+| Global Load Balancers | 2 |
+| Local Load Balancers | 4 |
+| Total Managed PAM Infrastructure Nodes | 25 |
+
