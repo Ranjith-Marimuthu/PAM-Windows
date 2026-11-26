@@ -102,3 +102,10 @@ sequenceDiagram
 - Password rotation must only be enabled after LAPS ownership has been removed.
 - Historical password access must be audited.
 - Credentials must never be stored in emails, tickets, chats, or documentation.
+
+> WARNING:
+> Delinea rotation must not be enabled for a managed account until LAPS exclusion has been validated and approved.
+
+
+
+
