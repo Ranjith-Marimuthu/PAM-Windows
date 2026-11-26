@@ -48,7 +48,7 @@ The design provides:
 
 ## Physical Topology
 
-![PAM 2.0 Infrastructure Architecture](./reference/PAM Architecture.png)
+![PAM 2.0 Infrastructure Architecture](../reference/PAM-Architecture.png)
 
 *Figure 1. PAM 2.0 Physical Infrastructure Topology*
 
