@@ -1,4 +1,4 @@
-# PAM 2.0 Logical and Infrastructure Architecture
+# PAM 2.0 Infrastructure Architecture
 
 ## Document Information
 
@@ -6,7 +6,7 @@
 |--------|--------|
 | Solution | PAM 2.0 |
 | Platform | Delinea Secret Server |
-| Purpose | Logical architecture, infrastructure topology, responsibilities, and access flows |
+| Purpose | Architecture, infrastructure topology, responsibilities, and access flows |
 | Audience | PAM Architects, Windows Engineers, Identity Engineers, Security Operations, Infrastructure Teams |
 | Version | 1.0 |
 | Status | Confirmed Infrastructure Topology |
@@ -15,7 +15,7 @@
 
 # Purpose
 
-This document describes the logical architecture, infrastructure topology, component responsibilities, high-availability design, and privileged access flows for the PAM 2.0 platform.
+This document describes the architecture, infrastructure topology, component responsibilities, high-availability design, and privileged access flows for the PAM 2.0 platform.
 
 The PAM 2.0 platform is built on Delinea Secret Server, utilizing a highly available multi-site deployment across Volvo Cars production and disaster recovery datacenters. The solution integrates Microsoft Entra ID, Active Directory, Cyolo Session Manager, SQL Always On, RabbitMQ clustering, Distributed Engines, and F5 Global/Local Load Balancers.
 
@@ -44,35 +44,13 @@ The design provides:
 
 ---
 
-# Logical Architecture
+# PAM 2.0 Infrastructure Architecture
 
-```mermaid
-flowchart LR
+## Physical Topology
 
-    U[Authorized User]
-    E[Microsoft Entra ID<br>SSO + MFA]
-    C[Cyolo Session Manager]
+![PAM 2.0 Infrastructure Architecture](./reference/arch.png)
 
-    D[Delinea Secret Server]
-    DE[Delinea Distributed Engines]
-
-    AD[Active Directory<br>GPO and Groups]
-
-    W[Managed Windows/Linux Servers]
-
-    U --> E
-    E --> C
-    C --> W
-
-    D -->|Credential Ownership| W
-
-    DE -->|Discovery| W
-    DE --> D
-
-    AD -->|Computer Objects<br>Groups<br>Policies| W
-
-    D -->|Governed Secret Retrieval| C
-```
+*Figure 1. PAM 2.0 Physical Infrastructure Topology*
 
 ---
 
