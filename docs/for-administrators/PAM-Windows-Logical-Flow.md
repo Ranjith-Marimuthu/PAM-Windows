@@ -25,6 +25,19 @@ SSO + MFA]
     DE --> Windows
     DE --> Delinea
 ```
+## Logical flows
+
+### Discovery
+
+Delinea Discovery Engines scan approved Windows servers using the permitted network path and approved scanning identity. Discovered Windows servers and accounts are reviewed before onboarding.
+
+### Credential management
+
+Delinea stores and governs the credential for `volvop27`. Only Delinea generates, rotates, verifies, and retains password history for the account.
+
+### User access
+
+An authorized user authenticates through Entra ID SSO and MFA, supplies the required justification and ticket reference, obtains access under the applicable approval model, and launches a controlled Cyolo session to an authorized target.
 
 ## Component Responsibilities
 
