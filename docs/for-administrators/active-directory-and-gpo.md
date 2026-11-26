@@ -117,21 +117,24 @@ Restore the prior Remote SAM setting and SDDL evidence. Reapply policy and valid
 
 **Policy:** Domain profile, Allow action, restricted to approved Discovery Engine IP sources.
 
+## Approved source identities
+
+The following on-premises and cloud Discovery Engine sources are approved at the network level for these Firewall GPO:
+
+| Source IP |
+|---|
+| `10.122.84.93` |
+| `10.122.84.94` |
+| `10.122.84.95` |
+| `10.122.128.87` |
+| `10.122.128.88` |
+| `10.46.158.68` |
+| `10.46.158.69` |
+
 ### TBC validation items
 
 > [!IMPORTANT]
-> TBC: UDP 445 is supplied in the matrix but must be validated against Windows and Delinea requirements.
-> Owner: Network and PAM teams
-
-> [!IMPORTANT]
-> TBC: UDP dynamic RPC requirement and exact RPC range must be validated; TCP/UDP direction and host-firewall implementation need approval.
-> Owner: Windows, network, and PAM teams
-
-> [!IMPORTANT]
-> TBC: NetBIOS 137-139 requirements and whether 139 is host, network, or both require validation.
-> Owner: Network and Windows teams
-
-Do not configure an unrestricted remote scope.
+> Do not configure an unrestricted remote scope.
 
 ## Policy conflict and rollback controls
 
@@ -151,7 +154,3 @@ Do not configure an unrestricted remote scope.
 - Remote SAM validation output.
 - Test-server and production-server evidence.
 
-## Source and validation status
-
-**Confirmed:** Target OU, identities, groups, GPO names, ScannerAccess settings, Remote SAM principal, and the supplied firewall matrix.  
-**TBC:** Exact SDDL, RPC range implementation, traffic direction, host/network split, security filtering details in non-production, and hostname-to-IP mappings.
