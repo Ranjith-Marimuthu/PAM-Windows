@@ -1,11 +1,11 @@
 # RACI Matrix
 
 **Purpose:** Define accountability boundaries for PAM 2.0 implementation and operations.  
-**Audience:** PAM platform, infrastructure, IAM, network, security, and service owners.
+**Audience:** PAM , infrastructure, IAM, network, security, and service owners.
 
 Legend: **R** Responsible, **A** Accountable, **C** Consulted, **I** Informed.
 
-| Activity | PAM | Windows infrastructure | AD/GPO | Network | IAM/Entra ID | Cyolo | Security operations | Change manager |
+| Activity | PAM Team | Windows infrastructure | AD/GPO | Network | IAM/Entra ID | Cyolo | Security operations | Change manager |
 |---|---|---|---|---|---|---|---|---|
 | Architecture  | A/R | C | C | C | C | C | C | I |
 | Delinea configuration | A/R | C | I | C | C | C | C | I |
@@ -22,13 +22,4 @@ Legend: **R** Responsible, **A** Accountable, **C** Consulted, **I** Informed.
 | Troubleshooting | R | R | R | R | R | R | C | C |
 | Offboarding | R | R | R | C | R | R | C | C |
 
-## Open ownership decisions
 
-> [!IMPORTANT]
-> TBC: Backstage owner, system owner, support team, escalation contacts, and final accountable service owner.
-> Owner: PAM service management
-
-## Source and validation status
-
-**Confirmed:** Component responsibility boundaries for Delinea, Cyolo, Active Directory, Windows, Entra ID, and Discovery Engines.  
-**TBC:** Named teams, role owners, support contacts, and organizational RACI assignments.
