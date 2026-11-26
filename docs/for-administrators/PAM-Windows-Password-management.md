@@ -33,18 +33,13 @@ flowchart TD
     F -->|Success| G[Publish as current version]
     F -->|Failure| H[Stop, investigate, and reconcile]
     G --> I[Record rotation status and timestamp]
-    I --> J[Test governed checkout]
+    I --> J[Test checkout]
     J --> K[Test Cyolo access]
     K --> L[Confirm audit events]
 ```
 
-## Rotation policy
-
 > [!IMPORTANT]
-> TBC: Password complexity, length, character rules, rotation interval, checkout duration, and heartbeat frequency.
-> Owner: PAM platform team
-
-Rotation must occur through Delinea. No administrator or end user may manually reset the credential outside the approved reconciliation and recovery process.
+> Rotation must occur through Delinea. No administrator or end user may manually reset the credential outside the approved reconciliation and recovery process.
 
 ## Verification procedure
 
@@ -66,13 +61,9 @@ Historical-password access is:
 - Restricted to authorized PAM recovery roles.
 - Audited.
 - Permitted only with a valid incident or change reference.
-- Prohibited for standard end users.
+
 
 Passwords must never be copied into tickets, email, Teams, files, or notes.
-
-> [!IMPORTANT]
-> TBC: History retention period and authorized recovery roles.
-> Owner: PAM governance and audit teams
 
 ## Runbook: Controlled password rotation
 
@@ -150,6 +141,3 @@ Create a new managed credential while preserving account availability and audit 
 
 Escalate to the PAM platform team, Windows infrastructure team, and incident or change manager as applicable.
 
-> [!IMPORTANT]
-> TBC: Alert thresholds, support contacts, lockout threshold, and offline recovery process.
-> Owner: PAM operations and security operations
