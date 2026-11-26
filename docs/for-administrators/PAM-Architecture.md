@@ -328,37 +328,33 @@ sequenceDiagram
 | Database Availability | SQL Always On and WSFC |
 
 ---
+# Infrastructure Summary
 
-# Security Constraints
-
-- Delinea and Microsoft LAPS must not simultaneously manage the same account.
-- Password rotation is prohibited until LAPS ownership has been removed.
-- Historical passwords must be protected and audited.
-- Credentials must never be exposed in:
-  - Tickets
-  - Email
-  - Chat
-  - Documentation
-  - Operational Notes
-- Discovery engines may only use approved service accounts.
-- Internet access to Secret Server components is prohibited.
-
-> WARNING:
-> Delinea rotation must not be enabled for a managed account until LAPS exclusion has been validated and approved.
+| Layer | Components |
+|---------|---------|
+| Global Load Balancing | GLB1, GLB2 |
+| Local Load Balancing | LLB1, LLB2, LLB3, LLB4 |
+| Web Tier | WEB1, WEB2, WEB3, WEB4 |
+| Database Tier | DB1, DB2, DB3 |
+| SQL Availability | DB-AOAG, DB-WSFC |
+| RabbitMQ Cluster | MQ1, MQ2, MQ3, MQ4, MQ5, MQ6 |
+| Distributed Engines | DE1, DE2, DE3, DE4 |
 
 ---
 
-# Prerequisites
+# Infrastructure Capacity Summary
 
-- Confirmed system ownership.
-- Approved onboarding request.
-- Firewall connectivity validation.
-- DNS registration.
-- Active Directory placement and GPO targeting.
-- Distributed Engine connectivity.
-- Entra ID administrative permissions.
-- Delinea administrative permissions.
-- Cyolo integration approval.
+| Component Type | Quantity |
+|----------------|----------|
+| Web Servers | 4 |
+| Database Servers | 3 |
+| SQL Cluster Services | 2 |
+| RabbitMQ Servers | 6 |
+| Distributed Engines | 4 |
+| Global Load Balancers | 2 |
+| Local Load Balancers | 4 |
+| Total Managed PAM Infrastructure Nodes | 25 |
+
 
 ---
 
