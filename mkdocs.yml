@@ -14,22 +14,17 @@ nav:
       - Getting Help: for-end-users/getting-help.md
   - Administrators:
       - Overview: for-administrators/index.md
-      - Architecture: for-administrators/architecture.md
-      - Active Directory and GPO: for-administrators/active-directory-and-gpo.md
-      - Network Requirements: for-administrators/network-requirements.md
-      - Discovery and Onboarding: for-administrators/discovery-and-onboarding.md
-      - LAPS to Delinea Transition: for-administrators/laps-to-delinea-transition.md
-      - Password Management: for-administrators/password-management.md
-      - Cyolo Integration: for-administrators/cyolo-integration.md
-      - Monitoring and Auditing: for-administrators/monitoring-and-auditing.md
-      - VM Snapshot Recovery: for-administrators/vm-snapshot-recovery.md
-      - Operational Runbooks: for-administrators/operational-runbooks.md
+      - Architecture: for-administrators/PAM-Architecture.md
+      - Logical Flow: for-administrators/PAM-Windows-Logical-Flow.md
+      - Active Directory and GPO: for-administrators/PAM-Windows-GPO-Requirements.md
+      - Network Topology: for-administrators/PAM-Network-Topology.md
+      - Discovery and Onboarding: for-administrators/PAM-Windows-Discovery-onboarding.md
+      - Password Management: for-administrators/PAM-Windows-Password-management.md
+      - Operational Runbooks: for-administrators/PAM-Windows-Operational-runbooks.md
       - Troubleshooting: for-administrators/troubleshooting.md
   - Reference:
       - Configuration Matrix: reference/configuration-matrix.md
-      - Validation Checklist: reference/validation-checklist.md
       - RACI: reference/raci.md
-      - Source Register: reference/source-register.md
 
 plugins:
   - techdocs-core

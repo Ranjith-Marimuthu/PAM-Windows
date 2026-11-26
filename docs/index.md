@@ -12,10 +12,10 @@
 
 ## Scope
 
-This documentation describes management of the Windows breakglass account password for approved VCCNET and VCCMFG servers using Delinea Secret Server, Delinea Discovery Engines, Active Directory and Group Policy, and Cyolo secure access.
+This documentation describes management of the Windows breakglass account password for approved VCCNET and VCCMFG servers using Delinea Secret Server, Delinea Discovery Engines, Active Directory and Cyolo.
 
-Delinea replaces LAPS for the Windows breakglass account. Delinea owns password generation, storage, rotation, verification, history, governed retrieval, and audit. Cyolo provides controlled target connectivity without owning or rotating the password.
+Delinea replaces LAPS for the Windows breakglass account. Delinea owns password generation, storage, rotation, verification, history, governed retrieval, and audit. Cyolo provides controlled target access.
 
 ## Access boundary
 
-End users should use the [End-User Resources](for-end-users/index.md). Administrators must use the [Administrator Resources](for-administrators/index.md) for architecture, GPO, network, onboarding, operations, and recovery procedures.
+End users should use the [End-User Resources](for-end-users/index.md). Administrators must use the [Administrator Resources](for-administrators/index.md) for architecture, GPO, network, onboarding and operational procedures.

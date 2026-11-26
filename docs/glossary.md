@@ -18,11 +18,5 @@
 | Remote SAM | Windows mechanism restricting remote calls to Security Accounts Manager discovery |
 | RPC | Remote Procedure Call framework used by Windows discovery and administration |
 | SSO | Single sign-on through Microsoft Entra ID |
-| TBC | Missing, conflicting, or not-yet-validated information |
 | VCCNET | Approved Windows target environment in scope |
 | VCCMFG | Approved Windows manufacturing target environment in scope |
-
-## Source and validation status
-
-**Confirmed:** Glossary terms derive from the approved requirements and source prompt.  
-**TBC:** Vendor-specific UI names and exact technical configuration terms must be validated against the implemented platform.
