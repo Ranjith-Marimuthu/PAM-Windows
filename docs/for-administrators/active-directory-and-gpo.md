@@ -117,7 +117,7 @@ Restore the prior Remote SAM setting and SDDL evidence. Reapply policy and valid
 
 **Policy:** Domain profile, Allow action, restricted to approved Discovery Engine IP sources.
 
-## Approved source identities
+### Approved source identities
 
 The following on-premises and cloud Discovery Engine sources are approved at the network level for these Firewall GPO:
 
@@ -130,8 +130,6 @@ The following on-premises and cloud Discovery Engine sources are approved at the
 | `10.122.128.88` |
 | `10.46.158.68` |
 | `10.46.158.69` |
-
-### TBC validation items
 
 > [!IMPORTANT]
 > Do not configure an unrestricted remote scope.
