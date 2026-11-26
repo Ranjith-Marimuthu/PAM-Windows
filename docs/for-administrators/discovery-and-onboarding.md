@@ -1,176 +1,153 @@
-# Discovery and Onboarding
+# PAM 2.0 Windows Device Onboarding Through Discovery
 
-**Purpose:** Provide the controlled sequence for discovering and onboarding the Windows breakglass account.  
-**Audience:** Delinea administrators, Discovery Engine administrators, Windows engineers, and PAM operations.
+## Purpose
 
-## Runbook: Onboard a breakglass target
+This document describes the configuration and process used to automatically onboard Windows servers into Delinea Secret Server through Discovery.
 
-### Purpose
+The onboarding process identifies eligible Windows servers from Active Directory, performs discovery using the approved scanning identity, and automatically creates managed assets within Delinea Secret Server.
 
-Add an approved Windows server and `volvop27` to governed Delinea management without introducing simultaneous LAPS and Delinea ownership.
+---
 
-### Trigger
+## Discovery Scope
 
-- New server requires breakglass onboarding.
-- Approved server replacement or environment migration.
-- Change record requires managed breakglass account validation.
+| Item | Value |
+|--------|--------|
+| Active Directory Domain | `vccnet.volvocars.net` |
+| Discovery Scope | `vccnet.volvocars.net/CS/Servers/` |
+| Discovery Method | Active Directory Discovery |
+| Scanning Service Identity | `BPPPAMWD` |
+| Target Platform | Windows Servers |
+| PAM Solution | Delinea Secret Server |
 
-### Required role
+### Discovery Scope Definition
 
-- Delinea Secret Server administrator.
-- Windows infrastructure administrator.
-- AD/GPO administrator.
-- Change approver.
-- Discovery Engine administrator, if connectivity or scan configuration is involved.
+The Discovery Engine is configured to scan Windows computer objects located under the following Active Directory Organizational Unit (OU):
 
-### Preconditions
-
-- Server owner and onboarding approval are available.
-- The server is an approved VCCNET or VCCMFG target.
-- The account `volvop27` exists and is enabled.
-- Approved AD and GPO implementation is available.
-- An assigned Discovery Engine has approved network connectivity.
-- LAPS exclusion design has been reviewed.
-
-## Procedure
-
-1. **Confirm server owner and approval.**  
-   Record the server owner, target environment, change reference, and onboarding approver.
-
-2. **Confirm account state.**  
-   Validate that `volvop27` exists and is enabled. Record only evidence status, not password values.
-
-3. **Add the target server to `Server-PAM-Prod`.**  
-   Confirm the server computer object is approved and belongs in the target OU.
-
-4. **Apply the three PAM GPOs.**  
-   Apply ScannerAccess, RemoteSAM, and RPCFirewall according to the approved change scope.
-
-5. **Validate effective Group Policy.**  
-   Confirm GPO precedence, security filtering, effective rights, and firewall rules.
-
-6. **Validate local membership and Remote SAM.**  
-   Confirm the approved scanning identity has the required effective local and Remote SAM permissions.
-
-7. **Validate Discovery Engine connectivity.**  
-   Test only the approved source IP and required network paths.
-
-8. **Run the Delinea discovery scan.**  
-   Use the assigned and approved Discovery Engine. Confirm discovery status and expected server count.
-
-9. **Review discovered accounts.**  
-   Verify that `volvop27` is identified on the correct server and no duplicate or unrelated account was selected.
-
-10. **Onboard using the approved Delinea template.**  
-    Use the confirmed folder and secret template.
-
-    > [!IMPORTANT]
-    > TBC: Delinea URL, folder, secret template, and account onboarding template.
-    > Owner: PAM platform team
-
-11. **Apply permissions, password changer, and heartbeat.**  
-    Apply the approved access policy and validate the account-management configuration.
-
-    > [!IMPORTANT]
-    > TBC: Password changer, heartbeat frequency, access policy, and checkout duration.
-    > Owner: PAM platform team
-
-12. **Verify the current credential.**  
-    Use an approved method to confirm Delinea can authenticate and that heartbeat is operational.
-
-13. **Remove `volvop27` from LAPS management.**  
-    Use the validated exclusion method and do not partially or inconsistently configure the server.
-
-14. **Confirm effective LAPS exclusion.**  
-    Verify locally and through available approved policy evidence. Do not rely only on GPO intent.
-
-> [!WARNING]
-> Do not enable Delinea password rotation until LAPS exclusion has been verified on the target server.
-
-15. **Enable Delinea rotation.**  
-    Only after the previous warning is satisfied and the change approver confirms readiness.
-
-16. **Perform a controlled rotation.**  
-    Record status and timestamps. Do not record or copy password values.
-
-17. **Verify the new password.**  
-    Confirm the heartbeat and a controlled authentication test are successful.
-
-18. **Test authorized checkout and Cyolo access.**  
-    Use an approved test identity and target session. Confirm the user receives the correct authorization and session behavior.
-
-19. **Confirm audit events.**  
-    Verify discovery, onboarding, rotation, checkout, and session events are represented in the approved audit locations.
-
-20. **Attach evidence to the change record.**  
-    Include timestamps and evidence references while excluding credential values.
-
-## Discovery workflow diagram
-
-```mermaid
-flowchart TD
-    A[Confirm owner and approval] --> B[Confirm account exists and is enabled]
-    B --> C[Add server to production target group]
-    C --> D[Apply three PAM GPOs]
-    D --> E[Validate effective policy]
-    E --> F[Validate membership and Remote SAM]
-    F --> G[Validate discovery connectivity]
-    G --> H[Run Delinea discovery scan]
-    H --> I[Review discovered account]
-    I --> J[Onboard with approved template]
-    J --> K[Apply permissions, changer, heartbeat, access policy]
-    K --> L[Verify current credential]
-    L --> M[Remove account from LAPS]
-    M --> N[Verify effective exclusion]
-    N -->|Verified| O[Enable Delinea rotation]
-    N -->|Not verified| P[Stop and remediate]
-    O --> Q[Controlled rotation]
-    Q --> R[Verify password]
-    R --> S[Test checkout and Cyolo access]
-    S --> T[Confirm audit events]
-    T --> U[Attach evidence]
+```text
+vccnet.volvocars.net/CS/Servers/
 ```
 
-## Validation
+Only servers within this scope are evaluated for onboarding into Delinea Secret Server.
 
-- The server appears in the approved Delinea scope.
-- The account is onboarded once and correctly identified.
-- Heartbeat and password verification succeed.
-- LAPS exclusion is effective.
-- Rotation succeeds once and only after exclusion.
-- Checkout and Cyolo session work for an approved test identity.
-- Relevant audit events are available.
+---
 
-## Evidence
+## Discovery Account
 
-- Onboarding approval and server owner.
-- Change record and timestamps.
-- GPO and effective-policy evidence.
-- Discovery scan and account review.
-- LAPS exclusion evidence.
-- Rotation and heartbeat status.
-- Cyolo test-session evidence.
-- Audit event references.
+The Discovery Engine uses the following service identity to perform host discovery and account validation:
 
-## Rollback
+| Setting | Value |
+|----------|---------|
+| Service Account | `BPPPAMWD` |
+| Purpose | Discovery and account validation |
+| Required Access | Local Administrator on target servers |
+| Authentication | Active Directory |
 
-1. Disable Delinea rotation if the change must be reversed.
-2. Retain the last verified credential state and do not expose its value.
-3. Restore any prior approved LAPS state only if it is confirmed safe and the owner approves.
-4. Remove or defer the Delinea onboarding where necessary.
-5. Restore GPO scope and network access in reverse change order.
-6. Record all restored states and validate service continuity.
+The required permissions for this account are provisioned through the GPOs defined in this document.
 
-## Stop conditions
+---
 
-- Server ownership or onboarding approval is missing.
-- `volvop27` is not confirmed present or enabled.
-- LAPS exclusion cannot be proven.
-- Discovery connectivity is not restricted and approved.
-- Existing management conflicts are unresolved.
-- Credential verification or rotation fails.
+## Automated Onboarding Rule
 
-## Source and validation status
+### Onboarding Logic
 
-**Confirmed:** Required onboarding sequence and rotation safety gate.  
-**TBC:** Template, URL, folder, heartbeat, checkout duration, test identities, discovery schedule, and engine assignment.
+A Delinea Discovery Rule is configured to automatically onboard discovered Windows hosts when a designated local administrative account is detected.
+
+| Condition | Action |
+|------------|------------|
+| Host platform detected as Windows | Continue evaluation |
+| Local account contains `vorlvop27` | Eligible for onboarding |
+| Discovery succeeds | Create managed asset |
+| Asset created | Place in Windows Folder |
+| Access assignment | Grant Infra Team administrative permissions |
+
+### Rule Definition
+
+```text
+IF:
+  Host Type = Windows
+  AND
+  Account Name contains "vorlvop27"
+
+THEN:
+  Onboard Host
+  Place Asset in Windows Folder
+  Grant Infra Team Administrative Access
+```
+
+### Result
+
+When Discovery identifies a Windows server within the configured Active Directory scope and detects the `vorlvop27` account:
+
+1. The host is automatically onboarded into Delinea Secret Server.
+2. A managed asset is created in the designated Windows folder.
+3. Infra Team administrative permissions are assigned.
+4. The host becomes available for PAM lifecycle operations, including:
+   - Password rotation
+   - Credential management
+   - Access governance
+   - Session management (where applicable)
+
+---
+
+## Confirmed PAM Discovery Design
+
+| Item | Confirmed Value |
+|--------|--------|
+| Discovery Scope | `vccnet.volvocars.net/CS/Servers/` |
+| Scanning Service Identity | `BPPPAMWD` |
+| Discovery Account Access | Local Administrator |
+| Discovery Engine Connectivity | Approved Discovery Engine source IPs |
+| Onboarding Trigger Account | `vorlvop27` |
+| Target Folder | Windows Folder |
+| Access Model | Infra Team Administrator Access |
+| Discovery Platform | Delinea Secret Server Discovery |
+
+---
+
+## Discovery Validation
+
+Validate the following after configuration and deployment.
+
+### Active Directory Discovery
+
+- Confirm the Discovery Engine can enumerate computer objects within:
+
+```text
+vccnet.volvocars.net/CS/Servers/
+```
+
+- Confirm target servers are returned in discovery results.
+
+### Host Discovery
+
+Verify that the `BPPPAMWD` account can:
+
+- Authenticate to the server.
+- Enumerate local accounts.
+- Query local administrative groups.
+- Validate Windows platform information.
+
+### Automated Onboarding Rule
+
+- Confirm a test server containing the `vorlvop27` account is discovered.
+- Confirm the server is automatically onboarded.
+- Confirm the asset is created in the Windows Folder.
+- Confirm Infra Team permissions are assigned correctly.
+- Confirm the asset is ready for password management and governance activities.
+
+---
+
+## Prerequisites
+
+The following GPOs must be implemented and validated before onboarding can succeed:
+
+1. `GPO-Servers-PAM-ScannerAccess`
+2. `GPO-Servers-PAM-RemoteSAM`
+3. `GPO-Servers-PAM-RPCFirewall`
+
+These GPOs ensure that:
+
+- The Discovery account (`BPPPAMWD`) can access managed servers.
+- Remote SAM queries required for account discovery are permitted.
+- Firewall rules allow communication from approved Discovery Engine source IPs.
+- Discovery and onboarding activities operate within Volvo Cars security requirements.
