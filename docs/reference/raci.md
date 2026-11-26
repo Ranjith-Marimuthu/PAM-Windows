@@ -5,9 +5,9 @@
 
 Legend: **R** Responsible, **A** Accountable, **C** Consulted, **I** Informed.
 
-| Activity | PAM platform | Windows infrastructure | AD/GPO | Network | IAM/Entra ID | Cyolo | Security operations | Change manager |
+| Activity | PAM | Windows infrastructure | AD/GPO | Network | IAM/Entra ID | Cyolo | Security operations | Change manager |
 |---|---|---|---|---|---|---|---|---|
-| Architecture approval | A/R | C | C | C | C | C | C | I |
+| Architecture  | A/R | C | C | C | C | C | C | I |
 | Delinea configuration | A/R | C | I | C | C | C | C | I |
 | Account onboarding | R | R | C | C | I | C | I | C |
 | LAPS exclusion | C | A/R | R | I | I | I | C | C |
