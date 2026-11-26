@@ -23,13 +23,13 @@
 | Symptom | Likely checks | Stop condition |
 |---|---|---|
 | SSO or MFA fails | Entra ID status, identity state, MFA result | Repeated authentication attempts after lockout risk |
-| User not eligible | Approval and eligibility groups | Group membership or approval policy is TBC |
+| User not eligible | Approval and eligibility groups | Group membership or approval policy is unresolved |
 | Target not found | Target enrollment, OU, security filtering, Cyolo mapping | Target identity or mapping is uncertain |
 | Session cannot launch | Cyolo target mapping, network path, firewall, account state | Snapshot mismatch or credential state unknown |
 | Heartbeat fails | Network path, GPO, account lockout, credential mismatch | LAPS exclusion is not verified |
 | Rotation fails | LAPS conflict, account state, password changer, network | Any simultaneous ownership is suspected |
 | Authentication fails | Username format, lockout, snapshot, credential state | Stop before repeated attempts |
-| Account disabled or locked | AD account state, lockout threshold, approved unlock process | Lockout threshold or recovery role is TBC |
+| Account disabled or locked | AD account state, lockout threshold, approved unlock process | Lockout threshold or recovery role is unknown |
 | Discovery missing | Engine assignment, network scope, GPO, Remote SAM | Hostname-to-IP mapping is unverified |
 
 ## SSO and MFA
@@ -40,11 +40,12 @@
 4. Do not bypass MFA or share approval.
 5. Escalate identity issues to the IAM or support team.
 
+For support channels and escalation contacts, see [Getting Help](../for-end-users/getting-help.md).
+
 ## Approval and eligibility
 
 > [!IMPORTANT]
-> TBC: Eligibility groups, approvers, approval routing, and timed-access duration.
-> Owner: PAM governance and IAM teams
+> Eligibility groups, approvers, approval routing, and timed-access duration must be confirmed with PAM governance and IAM teams.
 
 Do not grant access through a manual workaround while approval policy is unresolved.
 
@@ -60,15 +61,14 @@ Do not grant access through a manual workaround while approval policy is unresol
 ## Account lockout
 
 > [!IMPORTANT]
-> TBC: Lockout threshold and approved unlock process.
-> Owner: Windows infrastructure and AD teams
+> Confirm the lockout threshold and approved unlock process with Windows infrastructure and AD teams before attempting further authentication.
 
 Before more authentication attempts:
 
 1. Confirm account lockout state.
 2. Stop repeated credential tests.
 3. Confirm whether VM snapshot mismatch may be present.
-4. Use the approved recovery or incident process.
+4. Use the approved recovery or incident process. For support channels and escalation, see [Getting Help](../for-end-users/getting-help.md).
 
 ## LAPS conflict
 
@@ -83,8 +83,8 @@ If simultaneous ownership is suspected:
 
 1. Stop Delinea rotation.
 2. Preserve evidence.
-3. Use the LAPS-to-Delinea transition runbook.
-4. Escalate to Windows and PAM teams.
+3. Review the [Active Directory and GPO requirements](PAM-Windows-GPO-Requirements.md).
+4. Escalate to Windows and PAM teams using the [Getting Help](../for-end-users/getting-help.md) support process.
 
 ## Snapshot mismatch
 
@@ -94,8 +94,8 @@ If the VM may have been restored from an older snapshot:
 2. Record snapshot and restoration timestamps.
 3. Confirm timezone.
 4. Exclude unrelated network and account issues.
-5. Invoke the [VM Snapshot Recovery runbook](vm-snapshot-recovery.md).
-6. Do not attempt password history access without an authorized recovery role.
+5. Do not attempt password history access without an authorized recovery role.
+6. Contact PAM support through the process described in [Getting Help](../for-end-users/getting-help.md).
 
 ## Cyolo session issues
 
@@ -160,7 +160,7 @@ Remove a Windows server or authorized identity safely from the PAM 2.0 process.
 ### Evidence
 
 - Decommission or offboarding approval.
-- Server or identity identity.
+- Server or identity identifier.
 - GPO and target membership evidence.
 - Delinea and Cyolo removal evidence.
 - Audit event references.
@@ -177,9 +177,4 @@ Restore access only through an approved change and only if the server or identit
 
 ### Escalation
 
-Escalate decommission or access conflicts to the PAM operations, infrastructure, IAM, and change teams.
-
-## Source and validation status
-
-**Confirmed:** Troubleshooting boundaries, offboarding requirements, snapshot escalation, and security stop conditions.  
-**TBC:** Support contacts, lockout threshold, approval groups, service levels, and some integration details.
+Escalate decommission or access conflicts to the PAM operations, infrastructure, IAM, and change teams. For support channels and escalation contacts, see [Getting Help](../for-end-users/getting-help.md).
